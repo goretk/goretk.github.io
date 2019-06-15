@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go Reverse Engineering Tool Kit</title>
+    <link>/</link>
+    <description>Recent content on Go Reverse Engineering Tool Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 14 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Home</title>
+      <link>/home/</link>
+      <pubDate>Fri, 14 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/home/</guid>
+      <description>About The Go Reverse Engineering Tool Kit (go-re.tk) is a new open-source toolset for analyzing Go binaries. The tool is designed to extract as much metadata as possible from stripped binaries to assist in both reverse engineering and malware analysis. For example, GoRE can detect the compiler version used, extract type information, and recover function information, including source code line numbers for functions and source tree structure.
+The core library is written in Go, but the tool kit includes C-bindings and a library implementation in Python.</description>
+    </item>
+    
+  </channel>
+</rss>
