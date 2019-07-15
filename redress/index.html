@@ -2,7 +2,6 @@
 <html lang="en-US">
 
 <head>
-	<meta name="generator" content="Hugo 0.55.6" />
 <meta charset="utf-8">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -13,24 +12,24 @@
 <meta property="og:site_name" content="Go Reverse Engineering Tool Kit" />
 <meta property="og:locale" content="en-US" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/" />
-<meta property="og:title" content="Go Reverse Engineering Tool Kit" />
-<meta property="twitter:title" content="Go Reverse Engineering Tool Kit">
+<meta property="og:url" content="/redress/" />
+<meta property="og:title" content="Redress" />
+<meta property="twitter:title" content="Redress">
 
     <meta property="og:image" content="/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:image" content="/img/banner.png">
 
-<meta property="og:description" content="A reverse engineering tool kit for Go binaries">
-<meta property="twitter:description" content="A reverse engineering tool kit for Go binaries">
+<meta property="og:description" content="">
+<meta property="twitter:description" content="">
 
 <title>
 
 
-    Go Reverse Engineering Tool Kit
+     Go Reverse Engineering Tool Kit - Redress 
 
 </title>
-<link rel="canonical" href="./">
+<link rel="canonical" href="../redress/">
 
 
 <style media="screen">
@@ -977,13 +976,11 @@ margin-left: -4%;
 
 <link rel="shortcut icon"
 
-    href="./img/favicon.ico"
+    href="../img/favicon.ico"
 
 >
 
 
-
-  <link href="./index.xml" rel="alternate" type="application/rss+xml" title="Go Reverse Engineering Tool Kit" />
 
 
 </head>
@@ -992,33 +989,33 @@ margin-left: -4%;
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
 
     <div class="container">
         
-        <a href="./"><img class="logo" src="./img/logo.png" alt="logo"></a>
+        <a href="../"><img class="logo" src="../img/logo.png" alt="logo"></a>
         
         <div class="content">
-            <a href="./"><div class="name"><h1>Go Reverse Engineering Tool Kit</h1></div></a>
+            <a href="../"><div class="name"><h1>Go Reverse Engineering Tool Kit</h1></div></a>
             <nav>
                 <ul>
                     
                     
                     
                         
-                            <li><a href="./gore/">GoRE</a></li>
+                            <li><a href="../gore/">GoRE</a></li>
                         
                     
                         
-                            <li><a href="./libgore/">Libgore</a></li>
+                            <li><a href="../libgore/">Libgore</a></li>
                         
                     
                         
-                            <li><a href="./redress/">Redress</a></li>
+                            <li><a href="../redress/">Redress</a></li>
                         
                     
                         
-                            <li><a href="./pygore/">pyGoRE</a></li>
+                            <li><a href="../pygore/">pyGoRE</a></li>
                         
                     
                         
@@ -1029,197 +1026,498 @@ margin-left: -4%;
     </div>
 </div>
 
+
+
 <div class="main column">
     <div class="container">
         <div class="content">
-            
-                <div class="markdown">
+            <div class="page-heading">
+
+    
+    Redress
+    
+
+</div>
+
+            <div class="markdown">
                 
+    
+    
 
-<h1 id="how-to-get-it">How to get it?</h1>
+<h1 id="a-tool-for-analyzing-stripped-binaries">A tool for analyzing stripped binaries</h1>
 
-<p>The Go Reverse Engineering Tool Kit will be released during the week of Black
-Hat US 2019 and DEF CON 27.</p>
+<p>The <em>redress</em> software is a tool for analyzing stripped Go binaries compiled
+with the Go compiler. It extracts data from the binary and uses it to
+reconstruct symbols and performs analysis. It essentially tries to &ldquo;re-dress&rdquo; a
+&ldquo;stripped&rdquo; binary. It can be downloaded from its <a href="https://github.com/goretk/redress">GitHub
+page</a>.</p>
 
-<p>If you are going to Black Hat US 2019, come and checkout a live demo as part of
-the <a href="https://www.blackhat.com/us-19/arsenal/schedule/index.html#the-go-reverse-engineering-tool-kit-16972">Black Hat
-Arsenal</a></p>
+<p>It has two operation modes. The first is a standalone mode where the binary is
+executed on its own. The second mode is used when the binary is executed from
+within <em>radare2</em> via <em>r2pipe</em>. The binary is aware of its environment and
+behaves accordingly.</p>
 
-<p>If you are going to DEF CON 27, checkout a live demo as part of DEF CON&rsquo;s <a href="https://defcon.org/html/defcon-27/dc-27-demolabs.html#Go%20RE%20Toolkit">demo
-labs</a></p>
+<p>For the examples shown the malware <strong>pplauncher</strong>
+(<code>f94ca9b1b01a7b06f19afaac3fbe0a43075c775a</code>) will be used. A sample of the
+binary can be downloaded <a href="https://keybase.pub/joakimkennedy/gomalware/">here</a>.
+The malware was first reported by
+<a href="https://blog.malwarebytes.com/threat-analysis/mac-threat-analysis/2018/05/new-mac-cryptominer-uses-xmrig/">Malwarebytes</a>.</p>
 
-<h1 id="about">About</h1>
+<h2 id="running-it-standalone">Running it standalone</h2>
 
-<p>The Go Reverse Engineering Tool Kit (<a href="https://go-re.tk">go-re.tk</a>) is a new open-source toolset for
-analyzing Go binaries. The tool is designed to extract as much metadata as
-possible from stripped binaries to assist in both reverse engineering and
-malware analysis. For example, GoRE can detect the compiler version used,
-extract type information, and recover function information, including source
-code line numbers for functions and source tree structure.</p>
+<p>To run <em>redress</em>, just execute it on the command line. Below are some of the
+possible flags that can be given. It is possible to use multiple flags to
+extract different data. If no flags are given, no data is extracted. The idea
+is to print more information than what is asked by the user.</p>
 
-<p>The core library is written in Go, but the tool kit includes C-bindings and a
-library implementation in Python. When using the C-bindings or the Python
-library, it is possible to write plugins for other analysis tools such as IDA
-Pro and Ghidra. The toolset also includes “redress”, which is a command line
-tool to “dress” stripped Go binaries. It can both be used standalone to print
-out extracted information from the binary or as a radare2 plugin to reconstruct
-stripped symbols and type information.</p>
-
-<p>The tool kit consists of:</p>
-
-<ul>
-<li>Core library written in Go</li>
-<li>C-bindings</li>
-<li>Python library using the C-bindings</li>
-<li>A <a href="./redress">command line tool</a> for easy analysis</li>
-</ul>
-
-<h1 id="sample-outputs">Sample outputs</h1>
-
-<h2 id="function-information-recovery">Function information recovery</h2>
-
-<p>Sample output of the command line tool below prints a representation of the
-source code structure for one of the Zebrocy backdoor and downloader samples
-(672f85ee2031c1ff6295b17058e30e07). The output includes the filename of the
-source files, function names, function’s starting line number and ending line
-number in the file, and function line number length.</p>
-
-<pre><code>Package main: C:/!Project/C1/ProjectC1Dec
-
-File: main.go
-        GetDisk Lines: 27 to 37 (10)
-        Getfilename Lines: 37 to 52 (15)
-        CMDRunAndExit Lines: 52 to 58 (6)
-        Tasklist Lines: 58 to 70 (12)
-        Installed Lines: 70 to 82 (12)
-        Session_List Lines: 82 to 97 (15)
-        List_Local_Users Lines: 97 to 119 (22)
-        systeminformation Lines: 119 to 124 (5)
-        CreateSysinfo Lines: 124 to 137 (13)
-        ParseData Lines: 137 to 153 (16)
-        SendPOSTRequests Lines: 153 to 174 (21)
-        Screen Lines: 174 to 192 (18)
-        GetSND Lines: 192 to 215 (23)
-        PrcName Lines: 215 to 222 (7)
-        main Lines: 222 to 229 (7)
+<pre><code>$ redress -h
+Usage of redress:
+  -compiler
+    	Print information
+  -filepath
+    	Include file path for packages
+  -interface
+    	Print interfaces
+  -method
+    	Print type's methods
+  -pkg
+    	List packages
+  -src
+    	Print source tree
+  -std
+    	Include standard library packages
+  -struct
+    	Print structs
+  -type
+    	Print all type information
+  -unknown
+    	Include unknown packages
+  -vendor
+    	Include vendor package
 </code></pre>
 
-<h2 id="type-information-recovery">Type information recovery</h2>
+<h3 id="packages">Packages</h3>
 
-<p>The sample output below is data struct extracted from a DDGS botnet sample
-(8c2e1719192caa4025ed978b132988d6). Structure field names and method names with
-first character lowercase are private fields and hence not accessible outside
-the package. Still, the tool kit can extract this information.</p>
+<p>The different Go packages used in the binary can be extracted with the <code>-pkg</code>
+flag. <em>Redress</em> tries to only print the packages that are part of the project
+and skips standard library and 3rd party library packages.</p>
 
-<pre><code>type main.Payload struct{
-        CfgVer int
-        Cmds cmd.Table
-        Miners []main.miner
-}
-
-type main.miner struct{
-        cmd.XRun
-}
-
-type xlist.XList struct{
-        *memberlist.Memberlist
-}
-func (xlist.XList) GetHealthScore() int
-func (xlist.XList) Join([]string) (int, error)
-func (xlist.XList) Leave(int64) error
-func (xlist.XList) LocalNode() *memberlist.Node
-func (xlist.XList) Members() []*memberlist.Node
-func (xlist.XList) NumMembers() int
-func (xlist.XList) Ping(string, net.Addr) (int64, error)
-func (xlist.XList) ProtocolVersion() uint8
-func (xlist.XList) SendBestEffort(*memberlist.Node, []uint8) error
-func (xlist.XList) SendReliable(*memberlist.Node, []uint8) error
-func (xlist.XList) SendTo(net.Addr, []uint8) error
-func (xlist.XList) SendToTCP(*memberlist.Node, []uint8) error
-func (xlist.XList) SendToUDP(*memberlist.Node, []uint8) error
-func (xlist.XList) UpdateNode(int64) error
-func (xlist.XList) aliveNode()
-func (xlist.XList) anyAlive() bool
-func (xlist.XList) deadNode()
-func (xlist.XList) decryptRemoteState()
-func (xlist.XList) deschedule()
-func (xlist.XList) encodeAndBroadcast()
-func (xlist.XList) encodeAndSendMsg()
-func (xlist.XList) encodeBroadcastNotify()
-func (xlist.XList) encryptLocalState([]uint8) ([]uint8, error)
-func (xlist.XList) encryptionVersion()
-func (xlist.XList) estNumNodes() int
-func (xlist.XList) getBroadcasts(int, int) [][]uint8
-func (xlist.XList) gossip()
-func (xlist.XList) handleAck()
-func (xlist.XList) handleAlive()
-func (xlist.XList) handleCommand()
-func (xlist.XList) handleCompound()
-func (xlist.XList) handleCompressed()
-func (xlist.XList) handleConn()
-func (xlist.XList) handleDead()
-func (xlist.XList) handleIndirectPing()
-func (xlist.XList) handleNack()
-func (xlist.XList) handlePing()
-func (xlist.XList) handleSuspect()
-func (xlist.XList) handleUser()
-func (xlist.XList) ingestPacket()
-func (xlist.XList) invokeAckHandler()
-func (xlist.XList) invokeNackHandler()
-func (xlist.XList) mergeRemoteState()
-func (xlist.XList) mergeState()
-func (xlist.XList) nextIncarnation() uint32
-func (xlist.XList) nextSeqNo() uint32
-func (xlist.XList) packetHandler()
-func (xlist.XList) packetListen()
-func (xlist.XList) probe()
-func (xlist.XList) probeNode()
-func (xlist.XList) pushPull()
-func (xlist.XList) pushPullNode(string, bool) error
-func (xlist.XList) pushPullTrigger()
-func (xlist.XList) queueBroadcast()
-func (xlist.XList) rawSendMsgPacket()
-func (xlist.XList) rawSendMsgStream()
-func (xlist.XList) readRemoteState()
-func (xlist.XList) readStream()
-func (xlist.XList) readUserMsg()
-func (xlist.XList) refute()
-func (xlist.XList) resetNodes()
-func (xlist.XList) resolveAddr()
-func (xlist.XList) schedule()
-func (xlist.XList) sendAndReceiveState()
-func (xlist.XList) sendLocalState()
-func (xlist.XList) sendMsg()
-func (xlist.XList) sendPingAndWaitForAck()
-func (xlist.XList) sendUserMsg()
-func (xlist.XList) setAckHandler()
-func (xlist.XList) setAlive() error
-func (xlist.XList) setProbeChannels()
-func (xlist.XList) skipIncarnation()
-func (xlist.XList) streamListen()
-func (xlist.XList) suspectNode()
-func (xlist.XList) tcpLookupIP()
-func (xlist.XList) triggerFunc()
-func (xlist.XList) verifyProtocol()
+<pre><code>$ redress -pkg pplauncher
+Packages:
+main
 </code></pre>
 
-                </div>
-            
+<p>Sometimes though, <em>redress</em> fails to classify a package. In this case, the
+unclassified packages can be printed by also provide the <code>-unknown</code> flag:</p>
 
-            
-                <div class="posts">
-                
-                
-                </div>
-            
+<pre><code>$ redress -pkg -unknown pplauncher
+Packages:
+main
 
-            <div class="best-posts">
-            
-            
+Unknown Libraries:
+
+</code></pre>
+
+<p>To also include the standard library, use the <code>-std</code> flag. For 3rd party
+packages, use the flag <code>-vendor</code>.</p>
+
+<pre><code>$ redress -pkg -vendor -std pplauncher
+Packages:
+main
+
+Vendors:
+vendor/golang_org/x/net/route
+vendor/golang_org/x/net/route.(*wireFormat).(vendor/golang_org/x/net/route
+
+Standard Libraries:
+bufio
+bytes
+compress/flate
+compress/gzip
+context
+encoding/binary
+errors
+fmt
+go
+hash
+hash/crc32
+internal/cpu
+internal/poll
+internal/singleflight
+internal/testlog
+io
+io/ioutil
+math
+math/rand
+net
+os
+os/exec
+os/signal
+path/filepath
+reflect
+runtime
+runtime/debug
+sort
+strconv
+strings
+sync
+sync/atomic
+syscall
+time
+unicode
+unicode/utf8
+</code></pre>
+
+<p>The folder location for the package can also be included by using the
+<code>-filepath</code> flag.</p>
+
+<pre><code>$ redress -pkg -std -filepath pplauncher
+Packages:
+main | /Users/ronald/git/go-workspace/src/keybase.io/safetycrew/pplauncher
+
+Standard Libraries:
+bufio | /usr/local/Cellar/go/1.10/libexec/src/bufio
+bytes | /usr/local/Cellar/go/1.10/libexec/src/runtime
+compress/flate | /usr/local/Cellar/go/1.10/libexec/src/compress/flate
+compress/gzip | /usr/local/Cellar/go/1.10/libexec/src/compress/gzip
+context | /usr/local/Cellar/go/1.10/libexec/src/context
+encoding/binary | .
+errors | /usr/local/Cellar/go/1.10/libexec/src/errors
+fmt | /usr/local/Cellar/go/1.10/libexec/src/fmt
+go | .
+hash | .
+hash/crc32 | /usr/local/Cellar/go/1.10/libexec/src/hash/crc32
+internal/cpu | /usr/local/Cellar/go/1.10/libexec/src/internal/cpu
+internal/poll | /usr/local/Cellar/go/1.10/libexec/src/runtime
+internal/singleflight | /usr/local/Cellar/go/1.10/libexec/src/internal/singleflight
+internal/testlog | /usr/local/Cellar/go/1.10/libexec/src/internal/testlog
+io | /usr/local/Cellar/go/1.10/libexec/src/io
+io/ioutil | /usr/local/Cellar/go/1.10/libexec/src/io/ioutil
+math | .
+math/rand | /usr/local/Cellar/go/1.10/libexec/src/math/rand
+net | /usr/local/Cellar/go/1.10/libexec/src/net
+os | /usr/local/Cellar/go/1.10/libexec/src/runtime
+os/exec | /usr/local/Cellar/go/1.10/libexec/src/os/exec
+os/signal | /usr/local/Cellar/go/1.10/libexec/src/runtime
+path/filepath | /usr/local/Cellar/go/1.10/libexec/src/path/filepath
+reflect | /usr/local/Cellar/go/1.10/libexec/src/runtime
+runtime | /usr/local/Cellar/go/1.10/libexec/src/runtime
+runtime/debug | /usr/local/Cellar/go/1.10/libexec/src/runtime
+sort | /usr/local/Cellar/go/1.10/libexec/src/sort
+strconv | /usr/local/Cellar/go/1.10/libexec/src/strconv
+strings | /usr/local/Cellar/go/1.10/libexec/src/runtime
+sync | /usr/local/Cellar/go/1.10/libexec/src/runtime
+sync/atomic | /usr/local/Cellar/go/1.10/libexec/src/sync/atomic
+syscall | /usr/local/Cellar/go/1.10/libexec/src/runtime
+time | /usr/local/Cellar/go/1.10/libexec/src/runtime
+unicode | /usr/local/Cellar/go/1.10/libexec/src/unicode
+unicode/utf8 | /usr/local/Cellar/go/1.10/libexec/src/unicode/utf8
+</code></pre>
+
+<h3 id="compiler-information">Compiler information</h3>
+
+<p>Information about the Go compiler used to build the binary can be
+shown by using the <code>-compiler</code> flag. It prints the release version
+and the time stamp when the release tag was created in the git tree.</p>
+
+<pre><code>$ redress -compiler pplauncher
+Compiler version: go1.10 (2018-02-16T16:05:53Z)
+</code></pre>
+
+<h3 id="extracting-types">Extracting types</h3>
+
+<p><em>Redress</em> has multiple flags that can be used to extract different type data.
+Interfaces can be extracted with the <code>-interface</code> flag.  By default, standard
+library interfaces are filtered out. These can be included by also providing
+the <code>-std</code> flag.</p>
+
+<pre><code>$ redress -interface pplauncher
+type error interface {
+	Error() string
+}
+
+type interface {} interface{}
+
+type route.Addr interface {
+	Family() int
+}
+
+type route.Message interface {
+	Sys() []route.Sys
+}
+
+type route.Sys interface {
+	SysType() int
+}
+
+type route.binaryByteOrder interface {
+	PutUint16([]uint8, uint16)
+	PutUint32([]uint8, uint32)
+	Uint16([]uint8) uint16
+	Uint32([]uint8) uint32
+	Uint64([]uint8) uint64
+}
+</code></pre>
+
+<p>Structures can be extracted with the <code>-struct</code> flag (<code>redress -struct
+pplauncher</code>). Same as for interfaces, standard library structures are filtered
+out but can be included by also providing the <code>-std</code> flag.</p>
+
+<pre><code>type main.asset struct{
+	bytes []uint8
+	info os.FileInfo
+}
+
+type main.bindataFileInfo struct{
+	name string
+	size int64
+	mode uint32
+	modTime time.Time
+}
+
+type main.bintree struct{
+	Func func() (*main.asset, error)
+	Children map[string]*main.bintree
+}
+</code></pre>
+
+<p>Methods for the structure can be shown with the command <code>redress -struct
+-method pplauncher</code>.</p>
+
+<pre><code>type main.asset struct{
+	bytes []uint8
+	info os.FileInfo
+}
+
+type main.bindataFileInfo struct{
+	name string
+	size int64
+	mode uint32
+	modTime time.Time
+}
+func (main.bindataFileInfo) IsDir() bool
+func (main.bindataFileInfo) ModTime() time.Time
+func (main.bindataFileInfo) Mode() uint32
+func (main.bindataFileInfo) Name() string
+func (main.bindataFileInfo) Size() int64
+func (main.bindataFileInfo) Sys() interface {}
+
+type main.bintree struct{
+	Func func() (*main.asset, error)
+	Children map[string]*main.bintree
+}
+</code></pre>
+
+<p>It is also possible to print all types in the binary by using the <code>-type</code> flag.
+The <code>-method</code> flag can also be used to include defined methods.</p>
+
+<h3 id="estimating-source-code-layout">Estimating source code layout</h3>
+
+<p>One feature of <em>redress</em> is to reconstruct the source code tree layout.  This
+can be done by using the <code>-src</code> flag. By default, standard library and 3rd
+party packages are excluded but can be included by providing the flags <code>-std</code>,
+<code>-vendor</code>, and/or <code>-unknown</code>.</p>
+
+<p>The output includes the package name and its folder location at compile time.
+For each file, the functions defined within are printed. The output also
+includes auto generated functions produced by the compiler. For each function,
+<em>redress</em> tries to guess the starting and ending line number.</p>
+
+<pre><code>$ redress -src pplauncher
+Package main: /Users/ronald/git/go-workspace/src/keybase.io/safetycrew/pplauncher
+File: &lt;autogenerated&gt;
+	init Lines: 1 to 164 (163)
+	(*bindataFileInfo)Name Lines: 1 to 54 (53)
+	(*bindataFileInfo)Size Lines: 1 to 57 (56)
+	(*bindataFileInfo)Mode Lines: 1 to 60 (59)
+	(*bindataFileInfo)ModTime Lines: 1 to 63 (62)
+	(*bindataFileInfo)IsDir Lines: 1 to 1 (0)
+	(*bindataFileInfo)Sys Lines: 1 to 1 (0)
+File: bindata.go
+	bindataRead Lines: 21 to 54 (33)
+	bindataFileInfoName Lines: 54 to 57 (3)
+	bindataFileInfoSize Lines: 57 to 60 (3)
+	bindataFileInfoMode Lines: 60 to 63 (3)
+	bindataFileInfoModTime Lines: 63 to 66 (3)
+	bindataFileInfoIsDir Lines: 66 to 69 (3)
+	bindataFileInfoSys Lines: 69 to 74 (5)
+	dataLibmicrohttpd12DylibBytes Lines: 74 to 81 (7)
+	dataLibmicrohttpd12Dylib Lines: 81 to 94 (13)
+	dataMshelperBytes Lines: 94 to 101 (7)
+	dataMshelper Lines: 101 to 115 (14)
+	Asset Lines: 115 to 124 (9)
+File: pplauncher.go
+	init0 Lines: 17 to 21 (4)
+	check Lines: 21 to 29 (8)
+	cleanupMinerDirectory Lines: 29 to 52 (23)
+	extractPayload Lines: 52 to 74 (22)
+	fetchConfig Lines: 74 to 120 (46)
+	launchMiner Lines: 120 to 142 (22)
+	exitGracefully Lines: 142 to 152 (10)
+	autoKill Lines: 152 to 160 (8)
+	autoKillfunc1 Lines: 153 to 163 (10)
+	handleExit Lines: 160 to 169 (9)
+	handleExitfunc1 Lines: 163 to 166 (3)
+	main Lines: 169 to 175 (6)
+</code></pre>
+
+<h2 id="using-redress-with-radare2">Using redress with radare2</h2>
+
+<p><em>Redress</em> can be executed from within <em>radare2</em> via <em>r2pipe</em>. If <em>redress</em> is
+executed with no flags, it performs an automatic analysis of the binary.  It
+will extract all the functions and methods and construct symbol flags for them.
+It will also extract the types in the binary. It will mark the corresponding
+<code>_type</code> with this flag to make analysis easier. By doing this, it highlights
+which actual type is being allocated on the heap for easier analysis. The last
+thing <em>redress</em> does is to also tell <em>radare2</em> to analyze the <code>main.init</code> and
+<code>main.main</code> function recursively.</p>
+
+<pre><code>$ r2 pplauncher
+ -- There's no way you could crash radare2. No. Way.
+[0x01055c90]&gt; #!pipe redress
+Compiler version: go1.10 (2018-02-16T16:05:53Z)
+40 packages found.
+2659 function symbols found
+1717 type symbols found
+</code></pre>
+
+<p><em>Redress</em> also support some flags when executed from within <em>radare2</em>. These
+flags can be used to print the Go definition for a specific type.</p>
+
+<pre><code>[0x01055c90]&gt; #!pipe redress -h
+Usage of redress:
+  -method
+    	Print type's methods
+  -type int
+    	Lookup the Go definition for a type
+</code></pre>
+
+<h3 id="working-with-types">Working with types</h3>
+
+<p>The type identification by <em>redress</em> makes the analysis easier. In the code
+snippet below, it can be seen that memory for the type <code>main.bintree</code> is
+to be allocated.</p>
+
+<pre><code>; CODE XREF from sym.main.init (0x10eb3de)
+0x010eb14d      e80ed2f1ff     call sym.runtime.makemap_small
+0x010eb152      488b0424       mov rax, qword [rsp]
+0x010eb156      4889442440     mov qword [var_40h], rax
+0x010eb15b      488d0dbeba02.  lea rcx, sym.type.main.bintree
+0x010eb162      48890c24       mov qword [rsp], rcx
+0x010eb166      e8155ef2ff     call sym.runtime.newobject
+</code></pre>
+
+<p>To get the type definition of this type, the address for the flag needs to be
+known.</p>
+
+<pre><code>:&gt; f~sym.type.main.bintree
+0x01116c20 1 sym.type.main.bintree
+</code></pre>
+
+<p>By executing <em>redress</em> with the <code>-type</code> flag and the address, the type definition
+is returned:</p>
+
+<pre><code>:&gt; #!pipe redress -type 0x01116c20
+type main.bintree struct{
+	Func func() (*main.asset, error)
+	Children map[string]*main.bintree
+}
+</code></pre>
+
+<p>It is possible to chain the two commands:</p>
+
+<pre><code>:&gt; #!pipe redress -type `f~sym.type.main.bintree~[0]`
+type main.bintree struct{
+	Func func() (*main.asset, error)
+	Children map[string]*main.bintree
+}
+</code></pre>
+
+<p>A better way is to define a <em>radare2</em> macro:</p>
+
+<pre><code>:&gt; (type flag,#!pipe redress -type `f~$0~[0]`)
+:&gt; .(type sym.type.main.bintree)
+type main.bintree struct{
+	Func func() (*main.asset, error)
+	Children map[string]*main.bintree
+}
+</code></pre>
+
+<p>The methods for the type can also be included in the output by including the
+<code>-method</code> flag. Below a new macro is defined.</p>
+
+<pre><code>(type+ flag,#!pipe redress -method -type `f~$0~[0]`)
+</code></pre>
+
+<p>In the code snippet below, it can be seen that memory for the <code>exec.Cmd</code>
+structure is being allocated.</p>
+
+<pre><code>0x010e5cc5      488d0514b804.  lea rax, sym.type.exec.Cmd
+0x010e5ccc      48890424       mov qword [rsp], rax
+0x010e5cd0      e8abb2f2ff     call sym.runtime.newobject
+</code></pre>
+
+<p>The <code>exec.Cmd</code> does not have any methods because they are associated with the
+pointer type (<code>*exec.Cmd</code>) for the structure. To get the methods, this type has
+to be used. It can be found by grepping the flags for <code>exec.Cmd</code>.  <em>Radare2</em>
+will replace the &ldquo;<strong>*</strong>&rdquo; with a &ldquo;<strong>_</strong>&rdquo; in the flag name. Using <code>_exec.Cmd</code>
+instead does return the methods.</p>
+
+<pre><code>:&gt; .(type+ sym.type.exec.Cmd)
+type exec.Cmd struct{
+	Path string
+	Args []string
+	Env []string
+	Dir string
+	Stdin io.Reader
+	Stdout io.Writer
+	Stderr io.Writer
+	ExtraFiles []*os.File
+	SysProcAttr *syscall.SysProcAttr
+	Process *os.Process
+	ProcessState *os.ProcessState
+	ctx context.Context
+	lookPathErr error
+	finished bool
+	childFiles []*os.File
+	closeAfterStart []io.Closer
+	closeAfterWait []io.Closer
+	goroutine []func() error
+	errch chan error
+	waitDone chan struct {}
+}
+:&gt; f~exec.Cmd
+0x010ff100 1 sym.type._struct___F_uintptr__pw__os.File__c__exec.Cmd
+0x0111ada0 1 sym.type.struct___F_uintptr__pw__os.File__c__exec.Cmd
+0x0112c280 1 sym.type._exec.Cmd
+0x011314e0 1 sym.type.exec.Cmd
+:&gt; .(type+ sym.type._exec.Cmd)
+*exec.Cmd
+func (*exec.Cmd) CombinedOutput()
+func (*exec.Cmd) Output()
+func (*exec.Cmd) Run() error
+func (*exec.Cmd) Start() error
+func (*exec.Cmd) StderrPipe()
+func (*exec.Cmd) StdinPipe()
+func (*exec.Cmd) StdoutPipe()
+func (*exec.Cmd) Wait() error
+func (*exec.Cmd) argv()
+func (*exec.Cmd) closeDescriptors()
+func (*exec.Cmd) envv()
+func (*exec.Cmd) stderr()
+func (*exec.Cmd) stdin()
+func (*exec.Cmd) stdout()
+func (*exec.Cmd) writerDescriptor()
+</code></pre>
+
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 <div class="footer column">
     <div class="container">
 
@@ -1244,7 +1542,7 @@ func (xlist.XList) verifyProtocol()
 
         
             <a href="https://github.com/goretk" rel=me target="_blank">
-                <img class="icon" src="./img/github.svg" alt="github" />
+                <img class="icon" src="../img/github.svg" alt="github" />
             </a>
         
 
@@ -1257,8 +1555,8 @@ func (xlist.XList) verifyProtocol()
         
 
         
-            <a href="./index.xml">
-                <img class="icon" src="./img/rss.svg" alt="rss" />
+            <a href="../index.xml">
+                <img class="icon" src="../img/rss.svg" alt="rss" />
             </a>
         
 
@@ -1278,12 +1576,12 @@ func (xlist.XList) verifyProtocol()
 
 
 
-  <script src="./js/highlight.min.js" defer></script>
+  <script src="../js/highlight.min.js" defer></script>
   
 
 
 
-  <script src="./js/progressively.min.js" defer></script>
+  <script src="../js/progressively.min.js" defer></script>
 
 
 

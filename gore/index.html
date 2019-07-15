@@ -2,7 +2,6 @@
 <html lang="en-US">
 
 <head>
-	<meta name="generator" content="Hugo 0.55.6" />
 <meta charset="utf-8">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -13,24 +12,24 @@
 <meta property="og:site_name" content="Go Reverse Engineering Tool Kit" />
 <meta property="og:locale" content="en-US" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/" />
-<meta property="og:title" content="Go Reverse Engineering Tool Kit" />
-<meta property="twitter:title" content="Go Reverse Engineering Tool Kit">
+<meta property="og:url" content="/gore/" />
+<meta property="og:title" content="GoRE" />
+<meta property="twitter:title" content="GoRE">
 
     <meta property="og:image" content="/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:image" content="/img/banner.png">
 
-<meta property="og:description" content="A reverse engineering tool kit for Go binaries">
-<meta property="twitter:description" content="A reverse engineering tool kit for Go binaries">
+<meta property="og:description" content="">
+<meta property="twitter:description" content="">
 
 <title>
 
 
-    Go Reverse Engineering Tool Kit
+     Go Reverse Engineering Tool Kit - GoRE 
 
 </title>
-<link rel="canonical" href="./">
+<link rel="canonical" href="../gore/">
 
 
 <style media="screen">
@@ -977,13 +976,11 @@ margin-left: -4%;
 
 <link rel="shortcut icon"
 
-    href="./img/favicon.ico"
+    href="../img/favicon.ico"
 
 >
 
 
-
-  <link href="./index.xml" rel="alternate" type="application/rss+xml" title="Go Reverse Engineering Tool Kit" />
 
 
 </head>
@@ -992,33 +989,33 @@ margin-left: -4%;
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
 
     <div class="container">
         
-        <a href="./"><img class="logo" src="./img/logo.png" alt="logo"></a>
+        <a href="../"><img class="logo" src="../img/logo.png" alt="logo"></a>
         
         <div class="content">
-            <a href="./"><div class="name"><h1>Go Reverse Engineering Tool Kit</h1></div></a>
+            <a href="../"><div class="name"><h1>Go Reverse Engineering Tool Kit</h1></div></a>
             <nav>
                 <ul>
                     
                     
                     
                         
-                            <li><a href="./gore/">GoRE</a></li>
+                            <li><a href="../gore/">GoRE</a></li>
                         
                     
                         
-                            <li><a href="./libgore/">Libgore</a></li>
+                            <li><a href="../libgore/">Libgore</a></li>
                         
                     
                         
-                            <li><a href="./redress/">Redress</a></li>
+                            <li><a href="../redress/">Redress</a></li>
                         
                     
                         
-                            <li><a href="./pygore/">pyGoRE</a></li>
+                            <li><a href="../pygore/">pyGoRE</a></li>
                         
                     
                         
@@ -1029,197 +1026,94 @@ margin-left: -4%;
     </div>
 </div>
 
+
+
 <div class="main column">
     <div class="container">
         <div class="content">
-            
-                <div class="markdown">
+            <div class="page-heading">
+
+    
+    GoRE
+    
+
+</div>
+
+            <div class="markdown">
                 
+    
+    
 
-<h1 id="how-to-get-it">How to get it?</h1>
+<h1 id="a-go-package-for-analyzing-go-binaries">A Go package for analyzing Go binaries</h1>
 
-<p>The Go Reverse Engineering Tool Kit will be released during the week of Black
-Hat US 2019 and DEF CON 27.</p>
+<p>GoRE is the core of Go Reverse Engineering Tool Kit. It is a library written in
+Go that provides functionality to analyze binaries produced by the Go compiler.
+API documentation is available on <a href="https://godoc.org/github.com/goretk/gore">godoc.org</a>.</p>
 
-<p>If you are going to Black Hat US 2019, come and checkout a live demo as part of
-the <a href="https://www.blackhat.com/us-19/arsenal/schedule/index.html#the-go-reverse-engineering-tool-kit-16972">Black Hat
-Arsenal</a></p>
+<h2 id="how-to-use">How to use</h2>
 
-<p>If you are going to DEF CON 27, checkout a live demo as part of DEF CON&rsquo;s <a href="https://defcon.org/html/defcon-27/dc-27-demolabs.html#Go%20RE%20Toolkit">demo
-labs</a></p>
+<ol>
+<li>Use <code>go get -u github.com/goretk/gore</code> to download the library.</li>
+<li>Import it into your project.</li>
+<li>Write a new cool tool.</li>
+</ol>
 
-<h1 id="about">About</h1>
+<p>For an example use case, please checkout <a href="https://github.com/goretk/redress">redress</a>.</p>
 
-<p>The Go Reverse Engineering Tool Kit (<a href="https://go-re.tk">go-re.tk</a>) is a new open-source toolset for
-analyzing Go binaries. The tool is designed to extract as much metadata as
-possible from stripped binaries to assist in both reverse engineering and
-malware analysis. For example, GoRE can detect the compiler version used,
-extract type information, and recover function information, including source
-code line numbers for functions and source tree structure.</p>
+<h3 id="sample-code">Sample code</h3>
 
-<p>The core library is written in Go, but the tool kit includes C-bindings and a
-library implementation in Python. When using the C-bindings or the Python
-library, it is possible to write plugins for other analysis tools such as IDA
-Pro and Ghidra. The toolset also includes “redress”, which is a command line
-tool to “dress” stripped Go binaries. It can both be used standalone to print
-out extracted information from the binary or as a radare2 plugin to reconstruct
-stripped symbols and type information.</p>
+<p>Extract the main package, child packages, and sibling packages:</p>
 
-<p>The tool kit consists of:</p>
-
-<ul>
-<li>Core library written in Go</li>
-<li>C-bindings</li>
-<li>Python library using the C-bindings</li>
-<li>A <a href="./redress">command line tool</a> for easy analysis</li>
-</ul>
-
-<h1 id="sample-outputs">Sample outputs</h1>
-
-<h2 id="function-information-recovery">Function information recovery</h2>
-
-<p>Sample output of the command line tool below prints a representation of the
-source code structure for one of the Zebrocy backdoor and downloader samples
-(672f85ee2031c1ff6295b17058e30e07). The output includes the filename of the
-source files, function names, function’s starting line number and ending line
-number in the file, and function line number length.</p>
-
-<pre><code>Package main: C:/!Project/C1/ProjectC1Dec
-
-File: main.go
-        GetDisk Lines: 27 to 37 (10)
-        Getfilename Lines: 37 to 52 (15)
-        CMDRunAndExit Lines: 52 to 58 (6)
-        Tasklist Lines: 58 to 70 (12)
-        Installed Lines: 70 to 82 (12)
-        Session_List Lines: 82 to 97 (15)
-        List_Local_Users Lines: 97 to 119 (22)
-        systeminformation Lines: 119 to 124 (5)
-        CreateSysinfo Lines: 124 to 137 (13)
-        ParseData Lines: 137 to 153 (16)
-        SendPOSTRequests Lines: 153 to 174 (21)
-        Screen Lines: 174 to 192 (18)
-        GetSND Lines: 192 to 215 (23)
-        PrcName Lines: 215 to 222 (7)
-        main Lines: 222 to 229 (7)
+<pre><code class="language-go">f, err := gore.Open(fileStr)
+pkgs, err := f.GetPackages()
 </code></pre>
 
-<h2 id="type-information-recovery">Type information recovery</h2>
+<p>Extract all the types in the binary:</p>
 
-<p>The sample output below is data struct extracted from a DDGS botnet sample
-(8c2e1719192caa4025ed978b132988d6). Structure field names and method names with
-first character lowercase are private fields and hence not accessible outside
-the package. Still, the tool kit can extract this information.</p>
-
-<pre><code>type main.Payload struct{
-        CfgVer int
-        Cmds cmd.Table
-        Miners []main.miner
-}
-
-type main.miner struct{
-        cmd.XRun
-}
-
-type xlist.XList struct{
-        *memberlist.Memberlist
-}
-func (xlist.XList) GetHealthScore() int
-func (xlist.XList) Join([]string) (int, error)
-func (xlist.XList) Leave(int64) error
-func (xlist.XList) LocalNode() *memberlist.Node
-func (xlist.XList) Members() []*memberlist.Node
-func (xlist.XList) NumMembers() int
-func (xlist.XList) Ping(string, net.Addr) (int64, error)
-func (xlist.XList) ProtocolVersion() uint8
-func (xlist.XList) SendBestEffort(*memberlist.Node, []uint8) error
-func (xlist.XList) SendReliable(*memberlist.Node, []uint8) error
-func (xlist.XList) SendTo(net.Addr, []uint8) error
-func (xlist.XList) SendToTCP(*memberlist.Node, []uint8) error
-func (xlist.XList) SendToUDP(*memberlist.Node, []uint8) error
-func (xlist.XList) UpdateNode(int64) error
-func (xlist.XList) aliveNode()
-func (xlist.XList) anyAlive() bool
-func (xlist.XList) deadNode()
-func (xlist.XList) decryptRemoteState()
-func (xlist.XList) deschedule()
-func (xlist.XList) encodeAndBroadcast()
-func (xlist.XList) encodeAndSendMsg()
-func (xlist.XList) encodeBroadcastNotify()
-func (xlist.XList) encryptLocalState([]uint8) ([]uint8, error)
-func (xlist.XList) encryptionVersion()
-func (xlist.XList) estNumNodes() int
-func (xlist.XList) getBroadcasts(int, int) [][]uint8
-func (xlist.XList) gossip()
-func (xlist.XList) handleAck()
-func (xlist.XList) handleAlive()
-func (xlist.XList) handleCommand()
-func (xlist.XList) handleCompound()
-func (xlist.XList) handleCompressed()
-func (xlist.XList) handleConn()
-func (xlist.XList) handleDead()
-func (xlist.XList) handleIndirectPing()
-func (xlist.XList) handleNack()
-func (xlist.XList) handlePing()
-func (xlist.XList) handleSuspect()
-func (xlist.XList) handleUser()
-func (xlist.XList) ingestPacket()
-func (xlist.XList) invokeAckHandler()
-func (xlist.XList) invokeNackHandler()
-func (xlist.XList) mergeRemoteState()
-func (xlist.XList) mergeState()
-func (xlist.XList) nextIncarnation() uint32
-func (xlist.XList) nextSeqNo() uint32
-func (xlist.XList) packetHandler()
-func (xlist.XList) packetListen()
-func (xlist.XList) probe()
-func (xlist.XList) probeNode()
-func (xlist.XList) pushPull()
-func (xlist.XList) pushPullNode(string, bool) error
-func (xlist.XList) pushPullTrigger()
-func (xlist.XList) queueBroadcast()
-func (xlist.XList) rawSendMsgPacket()
-func (xlist.XList) rawSendMsgStream()
-func (xlist.XList) readRemoteState()
-func (xlist.XList) readStream()
-func (xlist.XList) readUserMsg()
-func (xlist.XList) refute()
-func (xlist.XList) resetNodes()
-func (xlist.XList) resolveAddr()
-func (xlist.XList) schedule()
-func (xlist.XList) sendAndReceiveState()
-func (xlist.XList) sendLocalState()
-func (xlist.XList) sendMsg()
-func (xlist.XList) sendPingAndWaitForAck()
-func (xlist.XList) sendUserMsg()
-func (xlist.XList) setAckHandler()
-func (xlist.XList) setAlive() error
-func (xlist.XList) setProbeChannels()
-func (xlist.XList) skipIncarnation()
-func (xlist.XList) streamListen()
-func (xlist.XList) suspectNode()
-func (xlist.XList) tcpLookupIP()
-func (xlist.XList) triggerFunc()
-func (xlist.XList) verifyProtocol()
+<pre><code class="language-go">f, err := gore.Open(fileStr)
+typs, err := f.GetTypes()
 </code></pre>
 
-                </div>
-            
+<h2 id="functionality">Functionality</h2>
 
-            
-                <div class="posts">
-                
-                
-                </div>
-            
+<h3 id="go-compiler">Go compiler</h3>
 
-            <div class="best-posts">
-            
-            
+<p>The library has functionality for guessing the compiler version used. It
+searches the binary for the identifiable string left by the compiler. It is not
+perfect, so functionality for assuming a specific version is also provided. The
+version strings used are identical to the identifiers. For example version
+&ldquo;1.10.1&rdquo; is represented as &ldquo;go1.10.1&rdquo; and version &ldquo;1.10&rdquo; is represented as
+&ldquo;go1.10&rdquo;</p>
+
+<h3 id="function-recovery">Function recovery</h3>
+
+<p>Function information is recovered from the pclntab. Information that is
+recovered includes: function start and end location in the text section, source
+file. The library also tries to estimate the first and last line number in the
+source file for the function.  The methods recovered includes the receiver. All
+functions and methods belong to a package. The library tries to classify the
+type of package. If it is a standard library package, 3rd-party package, or
+part of the main application. If it unable to classify the package, it is
+classified as unknown.</p>
+
+<p>If you are interested in how the function recover works in more details, checkout
+<a href="https://lekstu.ga/posts/pclntab-function-recovery/">this</a> blog post.</p>
+
+<h3 id="type-recovery">Type recovery</h3>
+
+<p>The types in the binary are parsed from the &ldquo;typelink&rdquo; list. Not all versions
+of Go are supported equally. Versions 1.7 and later are fully supported.
+Versions 1.5 and 1.6 are partially supported.  Version prior to 1.5 are not
+supported at all at the moment.</p>
+
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 <div class="footer column">
     <div class="container">
 
@@ -1244,7 +1138,7 @@ func (xlist.XList) verifyProtocol()
 
         
             <a href="https://github.com/goretk" rel=me target="_blank">
-                <img class="icon" src="./img/github.svg" alt="github" />
+                <img class="icon" src="../img/github.svg" alt="github" />
             </a>
         
 
@@ -1257,8 +1151,8 @@ func (xlist.XList) verifyProtocol()
         
 
         
-            <a href="./index.xml">
-                <img class="icon" src="./img/rss.svg" alt="rss" />
+            <a href="../index.xml">
+                <img class="icon" src="../img/rss.svg" alt="rss" />
             </a>
         
 
@@ -1278,12 +1172,12 @@ func (xlist.XList) verifyProtocol()
 
 
 
-  <script src="./js/highlight.min.js" defer></script>
+  <script src="../js/highlight.min.js" defer></script>
   
 
 
 
-  <script src="./js/progressively.min.js" defer></script>
+  <script src="../js/progressively.min.js" defer></script>
 
 
 

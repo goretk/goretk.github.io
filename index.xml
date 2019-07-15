@@ -6,10 +6,49 @@
     <description>Recent content on Go Reverse Engineering Tool Kit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 14 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GoRE</title>
+      <link>/gore/</link>
+      <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/gore/</guid>
+      <description>A Go package for analyzing Go binaries GoRE is the core of Go Reverse Engineering Tool Kit. It is a library written in Go that provides functionality to analyze binaries produced by the Go compiler. API documentation is available on godoc.org.
+How to use  Use go get -u github.com/goretk/gore to download the library. Import it into your project. Write a new cool tool.  For an example use case, please checkout redress.</description>
+    </item>
+    
+    <item>
+      <title>Libgore</title>
+      <link>/libgore/</link>
+      <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/libgore/</guid>
+      <description>Open up GoRE to other languages Libgore is a dynamic C-library for interacting with GoRE. It is using cgo to produce a translation layer between the code written in Go and the exported C functions. With this library, it is possible to write bindings for other languages that have C foreign function interface (FFI) support. PyGoRE uses this dynamic library to provide a Python library that can be used to write tools in Python.</description>
+    </item>
+    
+    <item>
+      <title>Redress</title>
+      <link>/redress/</link>
+      <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/redress/</guid>
+      <description>A tool for analyzing stripped binaries The redress software is a tool for analyzing stripped Go binaries compiled with the Go compiler. It extracts data from the binary and uses it to reconstruct symbols and performs analysis. It essentially tries to &amp;ldquo;re-dress&amp;rdquo; a &amp;ldquo;stripped&amp;rdquo; binary. It can be downloaded from its GitHub page.
+It has two operation modes. The first is a standalone mode where the binary is executed on its own.</description>
+    </item>
+    
+    <item>
+      <title>pyGoRE</title>
+      <link>/pygore/</link>
+      <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/pygore/</guid>
+      <description>Python library for analyzing Go binaries PyGoRE is a simple to use Python library for analyzing Go binaries compiled with Go compiler.
+How to use  Use pip install pygore to download and install the library. Import it into your project. Write a new cool tool.  Sample code import pygore testfile = &#39;/path/to/go/binary/file&#39; f = pygore.GoFile(testfile) c = f.get_compiler_version() print(&#39;Compiler: {}\nTimestamp: {}\nSHA {}\n&#39;. format(c.name, c.timestamp, c.sha)) pkgs = f.</description>
+    </item>
     
     <item>
       <title>Home</title>
@@ -17,8 +56,10 @@
       <pubDate>Fri, 14 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/home/</guid>
-      <description>About The Go Reverse Engineering Tool Kit (go-re.tk) is a new open-source toolset for analyzing Go binaries. The tool is designed to extract as much metadata as possible from stripped binaries to assist in both reverse engineering and malware analysis. For example, GoRE can detect the compiler version used, extract type information, and recover function information, including source code line numbers for functions and source tree structure.
-The core library is written in Go, but the tool kit includes C-bindings and a library implementation in Python.</description>
+      <description>How to get it? The Go Reverse Engineering Tool Kit will be released during the week of Black Hat US 2019 and DEF CON 27.
+If you are going to Black Hat US 2019, come and checkout a live demo as part of the Black Hat Arsenal
+If you are going to DEF CON 27, checkout a live demo as part of DEF CON&amp;rsquo;s demo labs
+About The Go Reverse Engineering Tool Kit (go-re.</description>
     </item>
     
   </channel>
