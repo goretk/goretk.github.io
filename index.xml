@@ -6,10 +6,19 @@
     <description>Recent content on Go Reverse Engineering Tool Kit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 14 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>What is it? The Go Reverse Engineering Tool Kit (go-re.tk) is a new open-source toolset for analyzing Go binaries. The tool is designed to extract as much metadata as possible from stripped binaries to assist in both reverse engineering and malware analysis. For example, GoRE can detect the compiler version used, extract type information, and recover function information, including source code line numbers for functions and source tree structure.</description>
+    </item>
     
     <item>
       <title>GoRE</title>
@@ -31,16 +40,6 @@ How to use  Use go get -u github.com/goretk/gore to download the library. Import
     </item>
     
     <item>
-      <title>Redress</title>
-      <link>/redress/</link>
-      <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/redress/</guid>
-      <description>A tool for analyzing stripped binaries The redress software is a tool for analyzing stripped Go binaries compiled with the Go compiler. It extracts data from the binary and uses it to reconstruct symbols and performs analysis. It essentially tries to &amp;ldquo;re-dress&amp;rdquo; a &amp;ldquo;stripped&amp;rdquo; binary. It can be downloaded from its GitHub page.
-It has two operation modes. The first is a standalone mode where the binary is executed on its own.</description>
-    </item>
-    
-    <item>
       <title>pyGoRE</title>
       <link>/pygore/</link>
       <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
@@ -51,15 +50,22 @@ How to use  Use pip install pygore to download and install the library. Import i
     </item>
     
     <item>
+      <title>Redress</title>
+      <link>/redress/</link>
+      <pubDate>Sun, 14 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/redress/</guid>
+      <description>A tool for analyzing stripped binaries The redress software is a tool for analyzing stripped Go binaries compiled with the Go compiler. It extracts data from the binary and uses it to reconstruct symbols and performs analysis. It essentially tries to &amp;ldquo;re-dress&amp;rdquo; a &amp;ldquo;stripped&amp;rdquo; binary. It can be downloaded from its GitHub page.
+It has two operation modes. The first is a standalone mode where the binary is executed on its own.</description>
+    </item>
+    
+    <item>
       <title>Home</title>
       <link>/home/</link>
       <pubDate>Fri, 14 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/home/</guid>
-      <description>How to get it? The Go Reverse Engineering Tool Kit will be released during the week of Black Hat US 2019 and DEF CON 27.
-If you are going to Black Hat US 2019, come and checkout a live demo as part of the Black Hat Arsenal
-If you are going to DEF CON 27, checkout a live demo as part of DEF CON&amp;rsquo;s demo labs
-About The Go Reverse Engineering Tool Kit (go-re.</description>
+      <description>A Reverse Engineering Tool Kit for Go, Written in Go. The Go Reverse Engineering Tool Kit (go-re.tk) is a new open-source toolset for analyzing Go binaries. The tool is designed to extract as much metadata as possible from stripped binaries to assist in both reverse engineering and malware analysis.</description>
     </item>
     
   </channel>

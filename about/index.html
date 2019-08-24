@@ -2,7 +2,6 @@
 <html lang="en-US">
 
 <head>
-	<meta name="generator" content="Hugo 0.57.2" />
 <meta charset="utf-8">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -13,24 +12,24 @@
 <meta property="og:site_name" content="Go Reverse Engineering Tool Kit" />
 <meta property="og:locale" content="en-US" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/" />
-<meta property="og:title" content="Go Reverse Engineering Tool Kit" />
-<meta property="twitter:title" content="Go Reverse Engineering Tool Kit">
+<meta property="og:url" content="/about/" />
+<meta property="og:title" content="About" />
+<meta property="twitter:title" content="About">
 
     <meta property="og:image" content="/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:image" content="/img/banner.png">
 
-<meta property="og:description" content="A reverse engineering tool kit for Go binaries">
-<meta property="twitter:description" content="A reverse engineering tool kit for Go binaries">
+<meta property="og:description" content="">
+<meta property="twitter:description" content="">
 
 <title>
 
 
-    Go Reverse Engineering Tool Kit
+     Go Reverse Engineering Tool Kit - About 
 
 </title>
-<link rel="canonical" href="./">
+<link rel="canonical" href="../about/">
 
 
 <style media="screen">
@@ -977,13 +976,11 @@ margin-left: -4%;
 
 <link rel="shortcut icon"
 
-    href="./img/favicon.ico"
+    href="../img/favicon.ico"
 
 >
 
 
-
-  <link href="./index.xml" rel="alternate" type="application/rss+xml" title="Go Reverse Engineering Tool Kit" />
 
 
 </head>
@@ -992,37 +989,37 @@ margin-left: -4%;
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
 
     <div class="container">
         
-        <a href="./"><img class="logo" src="./img/logo.png" alt="logo"></a>
+        <a href="../"><img class="logo" src="../img/logo.png" alt="logo"></a>
         
         <div class="content">
-            <a href="./"><div class="name"><h1>Go Reverse Engineering Tool Kit</h1></div></a>
+            <a href="../"><div class="name"><h1>Go Reverse Engineering Tool Kit</h1></div></a>
             <nav>
                 <ul>
                     
                     
                     
                         
-                            <li><a href="./about/">About</a></li>
+                            <li><a href="../about/">About</a></li>
                         
                     
                         
-                            <li><a href="./gore/">GoRE</a></li>
+                            <li><a href="../gore/">GoRE</a></li>
                         
                     
                         
-                            <li><a href="./libgore/">Libgore</a></li>
+                            <li><a href="../libgore/">Libgore</a></li>
                         
                     
                         
-                            <li><a href="./pygore/">pyGoRE</a></li>
+                            <li><a href="../pygore/">pyGoRE</a></li>
                         
                     
                         
-                            <li><a href="./redress/">Redress</a></li>
+                            <li><a href="../redress/">Redress</a></li>
                         
                     
                         
@@ -1033,37 +1030,187 @@ margin-left: -4%;
     </div>
 </div>
 
+
+
 <div class="main column">
     <div class="container">
         <div class="content">
-            
-                <div class="markdown">
-                
+            <div class="page-heading">
 
-<h1 id="a-reverse-engineering-tool-kit-for-go-written-in-go">A Reverse Engineering Tool Kit for Go, Written in Go.</h1>
+    
+    About
+    
+
+</div>
+
+            <div class="markdown">
+                
+    
+    
+
+<h1 id="what-is-it">What is it?</h1>
 
 <p>The Go Reverse Engineering Tool Kit (<a href="https://go-re.tk">go-re.tk</a>) is a new open-source toolset for
 analyzing Go binaries. The tool is designed to extract as much metadata as
 possible from stripped binaries to assist in both reverse engineering and
-malware analysis.</p>
+malware analysis. For example, GoRE can detect the compiler version used,
+extract type information, and recover function information, including source
+code line numbers for functions and source tree structure.</p>
 
-                </div>
-            
+<p>The core library is written in Go, but the tool kit includes C-bindings and a
+library implementation in Python. When using the C-bindings or the Python
+library, it is possible to write plugins for other analysis tools such as IDA
+Pro and Ghidra. The toolset also includes “redress”, which is a command line
+tool to “dress” stripped Go binaries. It can both be used standalone to print
+out extracted information from the binary or as a radare2 plugin to reconstruct
+stripped symbols and type information.</p>
 
-            
-                <div class="posts">
-                
-                
-                </div>
-            
+<p>The tool kit consists of:</p>
 
-            <div class="best-posts">
-            
-            
+<ul>
+<li>Core library written in Go</li>
+<li>C-bindings</li>
+<li>Python library using the C-bindings</li>
+<li>A <a href="../redress">command line tool</a> for easy analysis</li>
+</ul>
+
+<h1 id="sample-outputs">Sample outputs</h1>
+
+<h2 id="function-information-recovery">Function information recovery</h2>
+
+<p>Sample output of the command line tool below prints a representation of the
+source code structure for one of the Zebrocy backdoor and downloader samples
+(672f85ee2031c1ff6295b17058e30e07). The output includes the filename of the
+source files, function names, function’s starting line number and ending line
+number in the file, and function line number length.</p>
+
+<pre><code>Package main: C:/!Project/C1/ProjectC1Dec
+
+File: main.go
+        GetDisk Lines: 27 to 37 (10)
+        Getfilename Lines: 37 to 52 (15)
+        CMDRunAndExit Lines: 52 to 58 (6)
+        Tasklist Lines: 58 to 70 (12)
+        Installed Lines: 70 to 82 (12)
+        Session_List Lines: 82 to 97 (15)
+        List_Local_Users Lines: 97 to 119 (22)
+        systeminformation Lines: 119 to 124 (5)
+        CreateSysinfo Lines: 124 to 137 (13)
+        ParseData Lines: 137 to 153 (16)
+        SendPOSTRequests Lines: 153 to 174 (21)
+        Screen Lines: 174 to 192 (18)
+        GetSND Lines: 192 to 215 (23)
+        PrcName Lines: 215 to 222 (7)
+        main Lines: 222 to 229 (7)
+</code></pre>
+
+<h2 id="type-information-recovery">Type information recovery</h2>
+
+<p>The sample output below is data struct extracted from a DDGS botnet sample
+(8c2e1719192caa4025ed978b132988d6). Structure field names and method names with
+first character lowercase are private fields and hence not accessible outside
+the package. Still, the tool kit can extract this information.</p>
+
+<pre><code>type main.Payload struct{
+        CfgVer int
+        Cmds cmd.Table
+        Miners []main.miner
+}
+
+type main.miner struct{
+        cmd.XRun
+}
+
+type xlist.XList struct{
+        *memberlist.Memberlist
+}
+func (xlist.XList) GetHealthScore() int
+func (xlist.XList) Join([]string) (int, error)
+func (xlist.XList) Leave(int64) error
+func (xlist.XList) LocalNode() *memberlist.Node
+func (xlist.XList) Members() []*memberlist.Node
+func (xlist.XList) NumMembers() int
+func (xlist.XList) Ping(string, net.Addr) (int64, error)
+func (xlist.XList) ProtocolVersion() uint8
+func (xlist.XList) SendBestEffort(*memberlist.Node, []uint8) error
+func (xlist.XList) SendReliable(*memberlist.Node, []uint8) error
+func (xlist.XList) SendTo(net.Addr, []uint8) error
+func (xlist.XList) SendToTCP(*memberlist.Node, []uint8) error
+func (xlist.XList) SendToUDP(*memberlist.Node, []uint8) error
+func (xlist.XList) UpdateNode(int64) error
+func (xlist.XList) aliveNode()
+func (xlist.XList) anyAlive() bool
+func (xlist.XList) deadNode()
+func (xlist.XList) decryptRemoteState()
+func (xlist.XList) deschedule()
+func (xlist.XList) encodeAndBroadcast()
+func (xlist.XList) encodeAndSendMsg()
+func (xlist.XList) encodeBroadcastNotify()
+func (xlist.XList) encryptLocalState([]uint8) ([]uint8, error)
+func (xlist.XList) encryptionVersion()
+func (xlist.XList) estNumNodes() int
+func (xlist.XList) getBroadcasts(int, int) [][]uint8
+func (xlist.XList) gossip()
+func (xlist.XList) handleAck()
+func (xlist.XList) handleAlive()
+func (xlist.XList) handleCommand()
+func (xlist.XList) handleCompound()
+func (xlist.XList) handleCompressed()
+func (xlist.XList) handleConn()
+func (xlist.XList) handleDead()
+func (xlist.XList) handleIndirectPing()
+func (xlist.XList) handleNack()
+func (xlist.XList) handlePing()
+func (xlist.XList) handleSuspect()
+func (xlist.XList) handleUser()
+func (xlist.XList) ingestPacket()
+func (xlist.XList) invokeAckHandler()
+func (xlist.XList) invokeNackHandler()
+func (xlist.XList) mergeRemoteState()
+func (xlist.XList) mergeState()
+func (xlist.XList) nextIncarnation() uint32
+func (xlist.XList) nextSeqNo() uint32
+func (xlist.XList) packetHandler()
+func (xlist.XList) packetListen()
+func (xlist.XList) probe()
+func (xlist.XList) probeNode()
+func (xlist.XList) pushPull()
+func (xlist.XList) pushPullNode(string, bool) error
+func (xlist.XList) pushPullTrigger()
+func (xlist.XList) queueBroadcast()
+func (xlist.XList) rawSendMsgPacket()
+func (xlist.XList) rawSendMsgStream()
+func (xlist.XList) readRemoteState()
+func (xlist.XList) readStream()
+func (xlist.XList) readUserMsg()
+func (xlist.XList) refute()
+func (xlist.XList) resetNodes()
+func (xlist.XList) resolveAddr()
+func (xlist.XList) schedule()
+func (xlist.XList) sendAndReceiveState()
+func (xlist.XList) sendLocalState()
+func (xlist.XList) sendMsg()
+func (xlist.XList) sendPingAndWaitForAck()
+func (xlist.XList) sendUserMsg()
+func (xlist.XList) setAckHandler()
+func (xlist.XList) setAlive() error
+func (xlist.XList) setProbeChannels()
+func (xlist.XList) skipIncarnation()
+func (xlist.XList) streamListen()
+func (xlist.XList) suspectNode()
+func (xlist.XList) tcpLookupIP()
+func (xlist.XList) triggerFunc()
+func (xlist.XList) verifyProtocol()
+</code></pre>
+
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 <div class="footer column">
     <div class="container">
 
@@ -1088,7 +1235,7 @@ malware analysis.</p>
 
         
             <a href="https://github.com/goretk" rel=me target="_blank">
-                <img class="icon" src="./img/github.svg" alt="github" />
+                <img class="icon" src="../img/github.svg" alt="github" />
             </a>
         
 
@@ -1101,8 +1248,8 @@ malware analysis.</p>
         
 
         
-            <a href="./index.xml">
-                <img class="icon" src="./img/rss.svg" alt="rss" />
+            <a href="../index.xml">
+                <img class="icon" src="../img/rss.svg" alt="rss" />
             </a>
         
 
@@ -1122,12 +1269,12 @@ malware analysis.</p>
 
 
 
-  <script src="./js/highlight.min.js" defer></script>
+  <script src="../js/highlight.min.js" defer></script>
   
 
 
 
-  <script src="./js/progressively.min.js" defer></script>
+  <script src="../js/progressively.min.js" defer></script>
 
 
 
