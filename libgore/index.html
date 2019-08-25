@@ -1057,6 +1057,23 @@ for other languages that have C foreign function interface (FFI) support.
 <a href="../pygore">PyGoRE</a> uses this dynamic library to provide a Python library that
 can be used to write tools in Python.</p>
 
+<h2 id="example">Example</h2>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &quot;libgore.h&quot;
+
+int main()
+{
+   int v;
+   char* fp = &quot;/path/to/test/file&quot;;
+   v = gore_open(fp);
+   struct compilerVersion* c = gore_getCompilerVersion(fp);
+   printf(&quot;Compiler version: %s\n&quot;, c-&gt;name);
+   gore_close(fp);
+   return 0;
+}
+</code></pre>
+
 
             </div>
         </div>
